@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Authorization">
+    <Key>
+      <PropertyRef Name="ID_Authorization" />
+    </Key>
+    <Property Name="ID_Authorization" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Login" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="RoleID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Roles" Relationship="Self.FK_Authorization_Roles" FromRole="Authorization" ToRole="Roles" />
+    <NavigationProperty Name="Clients" Relationship="Self.FK_Clients_Authorization" FromRole="Authorization" ToRole="Clients" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Authorization" FromRole="Authorization" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Clients">
+    <Key>
+      <PropertyRef Name="ID_Client" />
+    </Key>
+    <Property Name="ID_Client" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TypeID" Type="Int32" Nullable="false" />
+    <Property Name="ID_Authorization" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Authorization" Relationship="Self.FK_Clients_Authorization" FromRole="Clients" ToRole="Authorization" />
+    <NavigationProperty Name="Types_of_clients" Relationship="Self.FK_Clients_Types_of_clients" FromRole="Clients" ToRole="Types_of_clients" />
+    <NavigationProperty Name="Deals" Relationship="Self.FK_Deals_Clients" FromRole="Clients" ToRole="Deals" />
+    <NavigationProperty Name="Deals1" Relationship="Self.FK_Deals_Clients1" FromRole="Clients" ToRole="Deals" />
+    <NavigationProperty Name="Objects" Relationship="Self.FK_Object_Clients2" FromRole="Clients" ToRole="Objects" />
+  </EntityType>
+  <EntityType Name="Deals">
+    <Key>
+      <PropertyRef Name="ID_Deal" />
+    </Key>
+    <Property Name="ID_Deal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+    <Property Name="ClientID" Type="Int32" Nullable="false" />
+    <Property Name="Object" Type="Int32" Nullable="false" />
+    <Property Name="Deal_date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Deal_amount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="OwnerID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Clients" Relationship="Self.FK_Deals_Clients" FromRole="Deals" ToRole="Clients" />
+    <NavigationProperty Name="Clients1" Relationship="Self.FK_Deals_Clients1" FromRole="Deals" ToRole="Clients" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_Deals_Agents" FromRole="Deals" ToRole="Employee" />
+    <NavigationProperty Name="Objects" Relationship="Self.FK_Deals_Objects" FromRole="Deals" ToRole="Objects" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="ID_Employee" />
+    </Key>
+    <Property Name="ID_Employee" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ID_Authorization" Type="Int32" />
+    <NavigationProperty Name="Authorization" Relationship="Self.FK_Employee_Authorization" FromRole="Employee" ToRole="Authorization" />
+    <NavigationProperty Name="Deals" Relationship="Self.FK_Deals_Agents" FromRole="Employee" ToRole="Deals" />
+    <NavigationProperty Name="Inspections" Relationship="Self.FK_Inspections_Employee" FromRole="Employee" ToRole="Inspections" />
+  </EntityType>
+  <EntityType Name="Inspections">
+    <Key>
+      <PropertyRef Name="ID_Inspection" />
+    </Key>
+    <Property Name="ID_Inspection" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+    <Property Name="Object" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Result" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_Inspections_Employee" FromRole="Inspections" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Object_type">
+    <Key>
+      <PropertyRef Name="ID_Type" />
+    </Key>
+    <Property Name="ID_Type" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Objects" Relationship="Self.FK_Objects_Object_type" FromRole="Object_type" ToRole="Objects" />
+  </EntityType>
+  <EntityType Name="Objects">
+    <Key>
+      <PropertyRef Name="ID_Object" />
+    </Key>
+    <Property Name="ID_Object" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeID" Type="Int32" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="Square" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Rooms" Type="Int32" Nullable="false" />
+    <Property Name="Year_built" Type="Int32" Nullable="false" />
+    <Property Name="OwnerID" Type="Int32" Nullable="false" />
+    <Property Name="StatusID" Type="Int32" Nullable="false" />
+    <Property Name="Floor" Type="Int32" Nullable="false" />
+    <Property Name="Number_floor" Type="Int32" Nullable="false" />
+    <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Clients" Relationship="Self.FK_Object_Clients2" FromRole="Objects" ToRole="Clients" />
+    <NavigationProperty Name="Deals" Relationship="Self.FK_Deals_Objects" FromRole="Objects" ToRole="Deals" />
+    <NavigationProperty Name="Object_type" Relationship="Self.FK_Objects_Object_type" FromRole="Objects" ToRole="Object_type" />
+    <NavigationProperty Name="Status" Relationship="Self.FK_Objects_Status" FromRole="Objects" ToRole="Status" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="ID_Role" />
+    </Key>
+    <Property Name="ID_Role" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Authorization" Relationship="Self.FK_Authorization_Roles" FromRole="Roles" ToRole="Authorization" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="ID_Status" />
+    </Key>
+    <Property Name="ID_Status" Type="Int32" Nullable="false" />
+    <Property Name="Type" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Objects" Relationship="Self.FK_Objects_Status" FromRole="Status" ToRole="Objects" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Types_of_clients">
+    <Key>
+      <PropertyRef Name="ID_Type" />
+    </Key>
+    <Property Name="ID_Type" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Clients" Relationship="Self.FK_Clients_Types_of_clients" FromRole="Types_of_clients" ToRole="Clients" />
+  </EntityType>
+  <Association Name="FK_Authorization_Roles">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+    <End Role="Authorization" Type="Self.Authorization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="ID_Role" />
+      </Principal>
+      <Dependent Role="Authorization">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Clients_Authorization">
+    <End Role="Authorization" Type="Self.Authorization" Multiplicity="1" />
+    <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Authorization">
+        <PropertyRef Name="ID_Authorization" />
+      </Principal>
+      <Dependent Role="Clients">
+        <PropertyRef Name="ID_Authorization" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_Authorization">
+    <End Role="Authorization" Type="Self.Authorization" Multiplicity="0..1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Authorization">
+        <PropertyRef Name="ID_Authorization" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="ID_Authorization" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Clients_Types_of_clients">
+    <End Role="Types_of_clients" Type="Self.Types_of_clients" Multiplicity="1" />
+    <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Types_of_clients">
+        <PropertyRef Name="ID_Type" />
+      </Principal>
+      <Dependent Role="Clients">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Deals_Clients">
+    <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+    <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clients">
+        <PropertyRef Name="ID_Client" />
+      </Principal>
+      <Dependent Role="Deals">
+        <PropertyRef Name="ClientID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Deals_Clients1">
+    <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+    <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clients">
+        <PropertyRef Name="ID_Client" />
+      </Principal>
+      <Dependent Role="Deals">
+        <PropertyRef Name="OwnerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Object_Clients2">
+    <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+    <End Role="Objects" Type="Self.Objects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clients">
+        <PropertyRef Name="ID_Client" />
+      </Principal>
+      <Dependent Role="Objects">
+        <PropertyRef Name="OwnerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Deals_Agents">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="ID_Employee" />
+      </Principal>
+      <Dependent Role="Deals">
+        <PropertyRef Name="EmployeeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Deals_Objects">
+    <End Role="Objects" Type="Self.Objects" Multiplicity="1" />
+    <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Objects">
+        <PropertyRef Name="ID_Object" />
+      </Principal>
+      <Dependent Role="Deals">
+        <PropertyRef Name="Object" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Inspections_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="Inspections" Type="Self.Inspections" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="ID_Employee" />
+      </Principal>
+      <Dependent Role="Inspections">
+        <PropertyRef Name="EmployeeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Objects_Object_type">
+    <End Role="Object_type" Type="Self.Object_type" Multiplicity="1" />
+    <End Role="Objects" Type="Self.Objects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Object_type">
+        <PropertyRef Name="ID_Type" />
+      </Principal>
+      <Dependent Role="Objects">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Objects_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="1" />
+    <End Role="Objects" Type="Self.Objects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="ID_Status" />
+      </Principal>
+      <Dependent Role="Objects">
+        <PropertyRef Name="StatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Real_Estate_AgencyEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Authorization" EntityType="Self.Authorization" />
+    <EntitySet Name="Clients" EntityType="Self.Clients" />
+    <EntitySet Name="Deals" EntityType="Self.Deals" />
+    <EntitySet Name="Employee" EntityType="Self.Employee" />
+    <EntitySet Name="Inspections" EntityType="Self.Inspections" />
+    <EntitySet Name="Object_type" EntityType="Self.Object_type" />
+    <EntitySet Name="Objects" EntityType="Self.Objects" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" />
+    <EntitySet Name="Status" EntityType="Self.Status" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Types_of_clients" EntityType="Self.Types_of_clients" />
+    <AssociationSet Name="FK_Authorization_Roles" Association="Self.FK_Authorization_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Authorization" EntitySet="Authorization" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Clients_Authorization" Association="Self.FK_Clients_Authorization">
+      <End Role="Authorization" EntitySet="Authorization" />
+      <End Role="Clients" EntitySet="Clients" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_Authorization" Association="Self.FK_Employee_Authorization">
+      <End Role="Authorization" EntitySet="Authorization" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Clients_Types_of_clients" Association="Self.FK_Clients_Types_of_clients">
+      <End Role="Types_of_clients" EntitySet="Types_of_clients" />
+      <End Role="Clients" EntitySet="Clients" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Deals_Clients" Association="Self.FK_Deals_Clients">
+      <End Role="Clients" EntitySet="Clients" />
+      <End Role="Deals" EntitySet="Deals" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Deals_Clients1" Association="Self.FK_Deals_Clients1">
+      <End Role="Clients" EntitySet="Clients" />
+      <End Role="Deals" EntitySet="Deals" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Object_Clients2" Association="Self.FK_Object_Clients2">
+      <End Role="Clients" EntitySet="Clients" />
+      <End Role="Objects" EntitySet="Objects" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Deals_Agents" Association="Self.FK_Deals_Agents">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Deals" EntitySet="Deals" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Deals_Objects" Association="Self.FK_Deals_Objects">
+      <End Role="Objects" EntitySet="Objects" />
+      <End Role="Deals" EntitySet="Deals" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Inspections_Employee" Association="Self.FK_Inspections_Employee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Inspections" EntitySet="Inspections" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Objects_Object_type" Association="Self.FK_Objects_Object_type">
+      <End Role="Object_type" EntitySet="Object_type" />
+      <End Role="Objects" EntitySet="Objects" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Objects_Status" Association="Self.FK_Objects_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="Objects" EntitySet="Objects" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
